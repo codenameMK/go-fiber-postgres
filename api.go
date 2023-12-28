@@ -8,7 +8,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/codenameMK/go-fiber-postgres/providers"
 	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
 )
@@ -140,11 +139,7 @@ func createJWT(account *Account) (string, error) {
 		"accountNumber": account.Number,
 	}
 
-	config, err := providers.GetConfig("search-playground-service-configuration.yml")
-	if err != nil {
-		panic(err)
-	}
-	secret := config.JwtConfig.Secret
+	secret := os.Getenv("JWT_SECRET")
 	fmt.Println("secret:" , secret)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
@@ -159,12 +154,7 @@ func withJWTAuth(handlerFunc http.HandlerFunc, s Storage) http.HandlerFunc {
 		fmt.Println("calling JWT auth middleware")
 
 		tokenString := r.Header.Get("x-jwt-token")
-		config, err := providers.GetConfig("search-playground-service-configuration.yml")
-		if err != nil {
-			panic(err)
-		}
-		secret := config.JwtConfig.Secret
-		fmt.Println("token string is " , tokenString  , "match with " , secret)
+		fmt.Println("token string is " , tokenString  , "match with " , os.Getenv("JWT_SECRET"))
 		token, err := validateJWT(tokenString)
 		if err != nil {
 			permissionDenied(w)

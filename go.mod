@@ -8,8 +8,7 @@ require (
 )
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	gopkg.in/yaml.v3 v3.0.1
 )
