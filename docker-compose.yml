@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fd472992
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+
+  go-server:
+    build: ./
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
